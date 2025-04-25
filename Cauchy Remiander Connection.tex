@@ -1,0 +1,59 @@
+\documentclass{article}
+\title{Connection Between Fourier Transforms and the Cauchy Form of the Taylor Polynomial Remainder}
+\author{Ev Hansen}
+\date{2025-04-25}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newcommand{\justif}[2]{&{#1}&\text{#2}}
+\newcommand{\Nat}{\mathbb N}
+\newcommand{\Real}{\mathbb R}
+\newcommand{\dispint}{\displaystyle \int}
+\newcommand{\dispsum}{\displaystyle \sum}
+\newcommand{\dispthere}{\displaystyle \therefore}
+
+\begin{document}
+	\maketitle
+	\newpage
+	For a given \(n \in \Nat\) and a neighborhood \( I \) of a given \(x_0\), and some function \(f:I \to \Real\) that is integrable and at least \(C^{n+1}\) smooth (has at least \( n+1 \) continuous derivatives), if \(x \neq x_0 \in I\), by Cauchy Remainder Theorem: \\
+	\newline
+	\(
+		P_n(x) := \dispsum_{k=0}^n \frac{f^{(k)}(x_0)}{k!} \left(x-x_0\right)^k \\
+		R_n(x) := f(x) - P_n(x) \\
+		R_n(x) = \frac{1}{n!}\dispint_{x_0}^x f^{(n+1)}(t) \left( x - t\right)^n \text{ d}t \\
+	\)
+	\newline
+	\(P_n(x)\) is the Taylor polynomial of order \(n\) approximating \(f(x)\) and \(R_n(x)\) is its remainder. \\
+	\newline
+	Let: \\
+	\(
+		g(t) := \begin{cases}
+			f^{(n+1)}(t) & t \in [x_0, x] \\
+			0 & \text{otherwise}
+		\end{cases}, \qquad h(t) := \begin{cases}
+			t^n & t \in [x_0, x] \\
+			0 & \text{otherwise}
+		\end{cases} \\
+		\newline
+	\)
+	\begin{align*}
+		R_n(x) &= \frac{1}{n!}\dispint_{x_0}^x f^{(n+1)}(t) \left( x - t\right)^n \text{ d}t \\
+		&= \frac{1}{n!}\dispint_{x_0}^x g(t) h(x-t) \text{ d}t \quad \text{(substitution)}\\
+		&= \frac{1}{n!}\dispint_{- \infty}^{\infty} g(t) h(x-t) \text{ d}t \quad (g,h \text{ extend supports of the integral to all of } \mathbb R)\\
+		&= \frac{1}{n!}(g*h)(x) \quad \text{(definition of (continuous) convolution)} \\
+	\end{align*}
+	Convolution theorem states that for Fourier operator \(\mathcal F\) and it's inverse \(\mathcal F^{-1}\) and continuous functions \(u,v: \quad (u * v)(x) = \mathcal F^{-1} \left( \mathcal F(u) \mathcal F(v)\right)\). \\
+	\newline
+	\(
+		\displaystyle R_n(x) = \frac{1}{n!}(g*h)(x) = \frac{1}{n!} \mathcal F^{-1} \left( \mathcal F(g) \mathcal F(h) \right) \\
+	\)
+	\newline
+	\(
+		\dispthere R_n(x) = \frac{1}{n!}\dispint_{x_0}^x f^{(n+1)}(t) \left( x - t\right)^n \text{ d}t  = \frac{1}{n!}(g*h)(x) = \frac{1}{n!} \mathcal F^{-1} \left( \mathcal F(g) \mathcal F(h) \right) \\
+	\)
+	\newline
+	\newline
+	Note: The (Bilateral) Laplace transform can be used in lieu of the Fourier transform. The Fourier transform is used here due to both its popularity and because of the existence of FFT algorithms, which make these calculations much more efficient. It is unknown to me how useful this result actually is, however the result has been screaming at me.
+\end{document}
